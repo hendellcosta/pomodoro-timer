@@ -6,12 +6,3 @@ body {
     background-color: #30384b;
     color: #eee;
 }
-
-.CircularProgressbar {
-    width: 20%;
-    font-size: 2rem
-}
-
-.timer {
-    font-size: 4rem;
-}
