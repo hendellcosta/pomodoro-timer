@@ -2,9 +2,9 @@
   🚀 Pomodoro Timer 🚀.
 </h1>
 
-<!-- <p align="center">
-    <img alt="Project" src="public/MyPasswordSaver.jpg" width="200px" />
-</p> -->
+<p align="center">
+    <img alt="Project" src="public/PomodoroTimer.png" width="200px" />
+</p>
 
 ## 🔧 Technologies
 
