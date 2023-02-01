@@ -5,7 +5,7 @@ import { RiPlayMiniFill } from "react-icons/ri";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
-function Timer() {
+function App() {
   const [minutesValue, setMinutesValue] = useState(25);
   const [secondsValue, setSecondsValue] = useState(0);
 
@@ -79,4 +79,4 @@ function Timer() {
   );
 }
 
-export default Timer;
+export default App;
