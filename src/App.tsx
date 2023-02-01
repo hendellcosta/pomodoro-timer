@@ -1,85 +1,82 @@
-import { useEffect, useState } from 'react';
-import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
-import 'react-circular-progressbar/dist/styles.css';
+import { useState, useEffect } from "react";
+import { RiPauseMiniFill } from "react-icons/ri";
+import { RiPlayMiniFill } from "react-icons/ri";
 
-function App() {
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 
-  
+function Timer() {
+  const [minutesValue, setMinutesValue] = useState(25);
+  const [secondsValue, setSecondsValue] = useState(0);
 
-  const [minutesValue, setMinutesValue] = useState(0)
-  const [secondsValue, setSecondsValue] = useState(0)
+  const [isPaused, setIsPaused] = useState(false);
+  const [intervalId, setIntervalId] = useState(null);
+  const percentage = Math.round((minutesValue / 60) * 100);
+  const [displayInfo, setDisplayInfo] = useState(false);
 
   const minutes = minutesValue < 10 ? `0${minutesValue}` : minutesValue;
   const seconds = secondsValue < 10 ? `0${secondsValue}` : secondsValue;
 
   useEffect(() => {
     let interval = setInterval(() => {
-      clearInterval(interval);
+      if (isPaused) {
+        if (secondsValue === 0) {
+          if (minutesValue !== 0) {
+            setSecondsValue(59);
+            setMinutesValue(minutesValue - 1);
+          } else {
+            let minutesValue = displayInfo ? 24 : 4;
+            let secondsValue = 59;
 
-      if (secondsValue === 0) {
-        if (minutesValue !== 0) {
-          setSecondsValue(59);
-          setMinutesValue(minutesValue - 1);
-      } else {
-
-      } }
-
-      else {
-        setSecondsValue(secondsValue - 1);
+            setMinutesValue(minutesValue);
+            setSecondsValue(secondsValue);
+            setDisplayInfo(!displayInfo);
+          }
+        } else {
+          setSecondsValue(secondsValue - 1);
+        }
       }
     }, 1000);
-  }, [secondsValue])
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [secondsValue, isPaused, minutesValue]);
+
+  function handlePause() {
+    setIsPaused(!isPaused);
+  }
 
   return (
-    <main className=''>
-      <div className='timer'>
-        <input type="" placeholder='How much time?' className='rounded-full' />
-      </div>
+    <main className="flex items-center justify-center h-[100vh] w-[100vw] absolute">
+      <div className="text-6xl flex flex-col gap-16">
+        {/*<span>
+          {minutes}:{seconds}
+  </span>*/}
 
-      <div>
+        <div className="flex flex-col gap-6 justify-center items-center">
+          <CircularProgressbar
+            value={percentage}
+            text={`${minutes}:${seconds}`}
+            styles={buildStyles({
+              textColor: "#fff",
+              pathColor: "#eee",
+              trailColor: "#3e98c7",
+            })}
+          />
+
+          <button
+            onClick={handlePause}
+            className="border rounded-full bg-white text-[#30384b]"
+          >
+            {!isPaused ? <RiPlayMiniFill /> : <RiPauseMiniFill />}
+          </button>
+
+          {displayInfo && <p>Break Time!</p>}
+        </div>
       </div>
     </main>
-  )
+  );
 }
 
-export default App
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-{/*
-<CircularProgressbar value={time} text={`${minutes}:${seconds}`} styles={buildStyles({
-rotation: 0.25,
-strokeLinecap: 'butt',
-pathTransitionDuration: 0.5,
-pathColor: `rgba(62, 152, 199, ${time / 100})`,
-textColor: '#3e98c7',
-trailColor: '#3e98c7',
-backgroundColor: '#3e98c7'
-})} /> */}
+export default Timer;
